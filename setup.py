@@ -15,7 +15,7 @@ setup(
         'KeyManagement'
     ],
     dependency_links=[
-        'https://github.com/mhanson2019/KeyManagement/tarball/master#egg=KeyManagement'
+        'https://github.com/mhanson2019/KeyManagement/tarball/master#egg=KeyManagement-0.1'
     ],
     python_requires='>=3.6',
     
