@@ -85,9 +85,9 @@ class DataHandler(SmShBase):
 
     
 if __name__ == "__main__":
-    key = "fNI4UrkI8fcDUb16AxzqX-FDL3wNpJcx56eKfXMm2Zw="
+    key = ""
     actions = DataHandler(key)
-    actions.sheetID = "6827322187403140"
+    actions.sheetID = ""
     actions.colFilter = {'Registered': None}
     sheet = actions.get_sheet()
     pass
