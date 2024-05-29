@@ -12,7 +12,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'smartsheet-python-sdk',
-        'git+https://github.com/mhanson2019/KeyManagement.git#egg=KeyManagement'
+        'KeyManagement'
     ],
     dependency_links=[
         'https://github.com/mhanson2019/KeyManagement/tarball/master#egg=KeyManagement'
