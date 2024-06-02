@@ -84,17 +84,23 @@ class DataHandler(SmShBase):
         
         self.client.Sheets.update_rows(self._sheetID, rowUpdateList)
 
-    def add_attachment(self, rowID: int, file: str):
+    def add_attachment(self, attchDict: dict):
         """
-        Add an attachment to a row
+        Add attachments to rows in the sheet based on an input dictionary
+         - attachDict: {rowID: {file: value}}
         """
-        # get file type from extension
-        fileExt = file.split('.')[-1]
-        response = self.client.Attachments.attach_file_to_row(self._sheetID, rowID, 
-                                                              (os.basename(file), open(file, 'rb'), 
-                                                               'application/'+fileExt))
-        print(f"Attachment added to row {rowID}")
-        return response
+        for rowID, file in attchDict.items():
+            
+            # get file type from extension
+            fileExt = file.split('.')[-1]
+            response = self.client.Attachments.attach_file_to_row(self._sheetID, rowID, 
+                                                                (os.basename(file), open(file, 'rb'), 
+                                                                'application/'+fileExt))
+            if response.message == 'SUCCESS':
+                print(f"Attachment added to row {rowID}")
+            else:
+                print(f"Attachment failed to add to row {rowID}")
+            
 
     
 if __name__ == "__main__":
