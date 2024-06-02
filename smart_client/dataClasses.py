@@ -98,7 +98,7 @@ class DataHandler(SmShBase):
                 # get file type from extension
                 fileExt = file.split('.')[-1]
                 response = self.client.Attachments.attach_file_to_row(self._sheetID, rowID, 
-                                                                    (os.basename(file), open(file, 'rb'), 
+                                                                    (os.path.basename(file), open(file, 'rb'), 
                                                                     'application/'+fileExt))
                 if response.message == 'SUCCESS':
                     print(f"Attachment added to row {rowID}")
