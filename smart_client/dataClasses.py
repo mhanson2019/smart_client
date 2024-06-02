@@ -62,7 +62,7 @@ class DataHandler(SmShBase):
     def update_rows(self, updateDict: dict):
         """
         Update specified cells from select rows in the sheet
-         - updateDict: {rowID: {colID: value}}
+         - updateDict: {rowID: {colID: {value: value, link: optional}}
         """
         rowUpdateList = []
         
@@ -74,7 +74,10 @@ class DataHandler(SmShBase):
                 update_cell = sm.models.Cell()
                 update_cell.column_id = col
                 
-                update_cell.value = val['value']
+                if type(val['value']) == dict:
+                    update_cell.value = str(val['value'])
+                else:
+                    update_cell.value = val['value']
                 if 'link' in val.keys():
                     update_cell.hyperlink = {'url': val['link']}
                 
@@ -89,17 +92,18 @@ class DataHandler(SmShBase):
         Add attachments to rows in the sheet based on an input dictionary
          - attachDict: {rowID: {file: value}}
         """
-        for rowID, file in attchDict.items():
+        for rowID, attachList in attchDict.items():
             
-            # get file type from extension
-            fileExt = file.split('.')[-1]
-            response = self.client.Attachments.attach_file_to_row(self._sheetID, rowID, 
-                                                                (os.basename(file), open(file, 'rb'), 
-                                                                'application/'+fileExt))
-            if response.message == 'SUCCESS':
-                print(f"Attachment added to row {rowID}")
-            else:
-                print(f"Attachment failed to add to row {rowID}")
+            for file in attachList:
+                # get file type from extension
+                fileExt = file.split('.')[-1]
+                response = self.client.Attachments.attach_file_to_row(self._sheetID, rowID, 
+                                                                    (os.basename(file), open(file, 'rb'), 
+                                                                    'application/'+fileExt))
+                if response.message == 'SUCCESS':
+                    print(f"Attachment added to row {rowID}")
+                else:
+                    print(f"Attachment failed to add to row {rowID}")
             
 
     
