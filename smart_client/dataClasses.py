@@ -92,6 +92,8 @@ class DataHandler(SmShBase):
         Add attachments to rows in the sheet based on an input dictionary
          - attachDict: {rowID: {file: value}}
         """
+        successList = []
+        failList = []
         for rowID, attachList in attchDict.items():
             
             for file in attachList:
@@ -102,8 +104,11 @@ class DataHandler(SmShBase):
                                                                     'application/'+fileExt))
                 if response.message == 'SUCCESS':
                     print(f"Attachment added to row {rowID}")
+                    successList.append(file)
                 else:
                     print(f"Attachment failed to add to row {rowID}")
+                    failList.append(file)
+        return successList, failList
             
 
     
