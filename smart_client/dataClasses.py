@@ -1,5 +1,6 @@
 from KeyManagement.getKeys import main as getKeys
 import smartsheet as sm
+import os
 
 class SmShBase:
     def __init__(self, key = None):
@@ -82,6 +83,18 @@ class DataHandler(SmShBase):
             rowUpdateList.append(update_row)
         
         self.client.Sheets.update_rows(self._sheetID, rowUpdateList)
+
+    def add_attachment(self, rowID: int, file: str):
+        """
+        Add an attachment to a row
+        """
+        # get file type from extension
+        fileExt = file.split('.')[-1]
+        response = self.client.Attachments.attach_file_to_row(self._sheetID, rowID, 
+                                                              (os.basename(file), open(file, 'rb'), 
+                                                               'application/'+fileExt))
+        print(f"Attachment added to row {rowID}")
+        return response
 
     
 if __name__ == "__main__":
