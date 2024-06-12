@@ -66,7 +66,7 @@ class DataHandler(SmShBase):
         """
         for file in attachDict.keys():
             urlObj = self.client.Attachments.get_attachment(self._sheetID, attachDict[file])
-            self.client.Attachments.download_attachment(urlObj, f"{directory}/{file}")
+            self.client.Attachments.download_attachment(urlObj, f"{directory}")
             print (f"Attachment {file} downloaded into {directory}")
             
         
@@ -127,9 +127,12 @@ class DataHandler(SmShBase):
 if __name__ == "__main__":
     key = ""
     actions = DataHandler(key)
-    actions.sheetID = ""
+    actions.sheetID = "3445054769155972"
     actions.colFilter = {'Registered': None}
-    sheet = actions.get_sheet()
+    #sheet = actions.get_sheet()
+    
+    attchDict = {'ATLX-01_1.pdb': 8346171275956100}
+    actions.get_attachments(attchDict, './')
     pass
         
         
