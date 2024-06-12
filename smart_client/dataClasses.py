@@ -59,6 +59,18 @@ class DataHandler(SmShBase):
         
         return self.sheetFiltered
 
+    def get_attachments(self, attachDict: dict, directory: str):
+        """
+        Download attachments from a dictionary of attachment IDs into a directory
+         - attachDict: {filename: attachmentID}
+        """
+        for file in attachDict.keys():
+            urlObj = self.client.Attachments.get_attachment(self._sheetID, attachDict[file])
+            self.client.Attachments.download_attachment(urlObj, f"{directory}/{file}")
+            print (f"Attachment {file} downloaded into {directory}")
+            
+        
+    
     def update_rows(self, updateDict: dict):
         """
         Update specified cells from select rows in the sheet
@@ -108,7 +120,7 @@ class DataHandler(SmShBase):
                 else:
                     print(f"Attachment failed to add to row {rowID}")
                     failList.append(file)
-        return successList, failList
+        return (successList, failList)
             
 
     
