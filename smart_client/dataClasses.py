@@ -32,13 +32,13 @@ class DataHandler(SmShBase):
     def colFilter(self, value):
         self._colFilter = value
     
-    def get_sheet(self, returnMap = False):
+    def get_sheet(self):
         """Get a sheet by ID"""
         self.sheetRaw = self.client.Sheets.get_sheet(self._sheetID)
         self._colMap = {x.title: x.id for x in self.sheetRaw.columns}
         self._colMapInv = {v: k for k, v in self._colMap.items()}
     # refactor on 2024-11-06 to separate filtering and getting sheet
-    def filter_sheet(self):
+    def filter_sheet(self, returnMap = False):
         """Filter a sheet based on a dictionary of column filters"""
         if self._colFilter:
             rowIDselect = []
