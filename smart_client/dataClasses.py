@@ -32,7 +32,7 @@ class DataHandler(SmShBase):
     def colFilter(self, value):
         self._colFilter = value
     
-    def get_sheet(self):
+    def get_sheet(self, returnMap = False):
         """Get a sheet by ID"""
         self.sheetRaw = self.client.Sheets.get_sheet(self._sheetID)
         self._colMap = {x.title: x.id for x in self.sheetRaw.columns}
@@ -59,8 +59,11 @@ class DataHandler(SmShBase):
             self.sheetFiltered = [x for x in self.sheetRaw.rows if x.id in rowIDselect]
         else:
             self.sheetFiltered = self.sheetRaw.rows
-        
-        return self.sheetFiltered
+
+        if returnMap:
+            return self.sheetFiltered, self._colMap
+        else:
+            return self.sheetFiltered
     
     def get_attachments(self, attachDict: dict, directory: str):
         """
